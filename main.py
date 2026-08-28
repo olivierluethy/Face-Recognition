@@ -15,8 +15,11 @@ import numpy as np
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
-your_image = face_recognition.load_image_file("You Image")
-your_face_encoding = face_recognition.face_encodings(your_image)[0]
+your_image = face_recognition.load_image_file("your_image.jpg")
+your_encodings = face_recognition.face_encodings(your_image)
+if not your_encodings:
+    raise ValueError("Kein Gesicht im Referenzbild gefunden. Bitte ein Foto mit klar erkennbarem Gesicht verwenden.")
+your_face_encoding = your_encodings[0]
 
 # Create arrays of known face encodings and their names
 known_face_encodings = [
@@ -36,13 +39,18 @@ while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
+    # Stop if the webcam did not return a frame
+    if not ret:
+        print("Kein Frame von der Kamera erhalten. Beende.")
+        break
+
     # Only process every other frame of video to save time
     if process_this_frame:
         # Resize frame of video to 1/4 size for faster face recognition processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-        rgb_small_frame = small_frame[:, :, ::-1]
+        rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
         
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
