@@ -24,7 +24,7 @@ This project demonstrates real-time face recognition using OpenCV and the face_r
 2. Place an image of the face you want to recognize in the project directory and update the filename in the code.
 3. Run the script:
    ```
-   python face_recognition_demo.py
+   python main.py
    ```
 4. The webcam will activate, and faces in the video feed will be recognized in real-time.
 
@@ -39,4 +39,4 @@ This project utilizes the following libraries:
 - [face_recognition](https://github.com/ageitgey/face_recognition)
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
